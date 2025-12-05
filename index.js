@@ -26,7 +26,10 @@ yargs(hideBin(process.argv))
             demandOption: true,
         })
     },
-    addFiles
+    (args)=>{
+        addFiles(args.file)
+    },
+    
   )
   .command(
     'commit <message>',
@@ -38,7 +41,9 @@ yargs(hideBin(process.argv))
             demandOption: true,
         })
     },
-    commitFiles
+    (args)=>{
+        commitFiles(args.message)
+    }
   )
   .command(
     'revert <commit>',
@@ -50,19 +55,25 @@ yargs(hideBin(process.argv))
             demandOption: true,
         })
     },
-    revertFiles
+    (args)=>{
+        revertFiles(args.commit)
+    }
   )
   .command(
     'push',
     'this pushes files to git',
     () => {},
-    pushFiles
+    (args)=>{
+        pushFiles(args.commit)
+    }
   )
   .command(
     'pull',
     'this pulls files from git',
     () => {},
-    pullFiles
+    (args)=>{
+        pullFiles(args.commit)
+    }
   )
   .demandCommand(1, 'You need at least one command')
   .help()
