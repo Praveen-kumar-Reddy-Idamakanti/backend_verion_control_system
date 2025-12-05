@@ -4,19 +4,21 @@ const { hideBin } = require("yargs/helpers");
 
 const { initRepo } = require("./controllers/init");
 const { addFiles } = require("./controllers/add");
-const { commitFiles } = require("./controllers/commit");
+const { commitRepo } = require("./controllers/commit");
 const { revertFiles } = require("./controllers/revert");
 const { pushFiles } = require("./controllers/push");
 const { pullFiles } = require("./controllers/pull");
 
 yargs(hideBin(process.argv))
-  .command(
+/*  init command */ 
+.command(
     'init',
     'this initializes git',
     () => {},
     initRepo
   )
-  .command(
+/*  add command */ 
+.command(
     'add <file>',
     'this adds files to git',
     (yargs) => {
@@ -26,9 +28,13 @@ yargs(hideBin(process.argv))
             demandOption: true,
         })
     },
-    addFiles
+    (args)=>{
+        addFiles(args.file)
+    },
+    
   )
-  .command(
+/*  commit command */ 
+.command(
     'commit <message>',
     'this commits files to git',
     (yargs) => {
@@ -38,9 +44,12 @@ yargs(hideBin(process.argv))
             demandOption: true,
         })
     },
-    commitFiles
+    (args)=>{
+        commitRepo(args.message)
+    }
   )
-  .command(
+/*  revert command */ 
+.command(
     'revert <commit>',
     'this reverts files to git',
     (yargs) => {
@@ -50,19 +59,27 @@ yargs(hideBin(process.argv))
             demandOption: true,
         })
     },
-    revertFiles
+    (args)=>{
+        commitRepo(args.commit)
+    }
   )
-  .command(
+/*  push command */ 
+.command(
     'push',
     'this pushes files to git',
     () => {},
-    pushFiles
-  )
-  .command(
+    (args)=>{
+        pushFiles(args.commit)
+    }
+  ) 
+/*  pull command */ 
+.command(
     'pull',
     'this pulls files from git',
     () => {},
-    pullFiles
+    (args)=>{
+        pullFiles(args.commit)
+    }
   )
   .demandCommand(1, 'You need at least one command')
   .help()
