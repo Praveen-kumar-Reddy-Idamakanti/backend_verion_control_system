@@ -1,0 +1,15 @@
+{
+  "name": "git-backend",
+  "version": "1.0.0",
+  "description": "this is git backend",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "yargs": "^18.0.0"
+  }
+}
