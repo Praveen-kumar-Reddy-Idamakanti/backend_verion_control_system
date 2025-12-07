@@ -62,7 +62,9 @@ async function fetchRepositoryById(req, res) {
     const repository = await Repository.find({ _id: id })
       .populate("owner")
       .populate("issues");
-
+    if (!repository || repository.length == 0) {
+      return res.status(404).json({ error: "Repository not found!" });
+    }
     res.json(repository);
   } catch (err) {
     console.error("Error during fetching repository : ", err.message);
@@ -76,7 +78,9 @@ async function fetchRepositoryByName(req, res) {
     const repository = await Repository.find({ name })
       .populate("owner")
       .populate("issues");
-
+    if (!repository || repository.length == 0) {
+      return res.status(404).json({ error: "Repository not found!" });
+    }
     res.json(repository);
   } catch (err) {
     console.error("Error during fetching repository : ", err.message);
@@ -85,18 +89,17 @@ async function fetchRepositoryByName(req, res) {
 }
 
 async function fetchRepositoriesForCurrentUser(req, res) {
-  console.log(req.params);
+  //console.log(req.params);
   const { id } = req.params; // route is /repo/me/:id
 
   try {
     const repositories = await Repository.find({ owner: id })
       .populate("owner")
       .populate("issues");
-
     if (!repositories || repositories.length == 0) {
       return res.status(404).json({ error: "User Repositories not found!" });
     }
-    console.log(repositories);
+    //console.log(repositories);
     res.json({ message: "Repositories found!", repositories });
   } catch (err) {
     console.error("Error during fetching user repositories : ", err.message);
@@ -109,7 +112,9 @@ async function updateRepositoryById(req, res) {
   const { content, description } = req.body;
 
   try {
-    const repository = await Repository.findById(id);
+    const repository = await Repository.findById(id)
+    .populate("owner")
+    .populate("issues");
     if (!repository) {
       return res.status(404).json({ error: "Repository not found!" });
     }
