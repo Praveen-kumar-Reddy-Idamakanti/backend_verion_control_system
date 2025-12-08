@@ -6,8 +6,8 @@ repoRouter.get("/repo/all", repoController.getAllRepositories)
 repoRouter.get("/repo/id/:id", repoController.fetchRepositoryById)
 repoRouter.get("/repo/:name", repoController.fetchRepositoryByName)
 repoRouter.get("/repo/me/:id", repoController.fetchRepositoriesForCurrentUser)
-repoRouter.put("/repo/update/:id", repoController.updateRepositoryById)
+repoRouter.put("/repo/:id", repoController.updateRepositoryById)
 repoRouter.patch("/repo/toggleVisibility/:id", repoController.toggleVisibilityById)
-repoRouter.delete("/repo/delete/:id", repoController.deleteRepositoryById)
+repoRouter.delete("/repo/:id", repoController.deleteRepositoryById)
 
 module.exports = repoRouter

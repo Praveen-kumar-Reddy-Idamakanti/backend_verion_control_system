@@ -12,8 +12,8 @@ const config = {
 
 // Validate required environment variables
 if (!config.accessKeyId || !config.secretAccessKey) {
-    console.warn('⚠️ AWS credentials not found in environment variables');
-    console.warn('   Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your .env file');
+    console.warn('AWS credentials not found in environment variables');
+    console.warn('Please set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in your .env file');
 }
 
 // Configure AWS SDK
@@ -23,7 +23,7 @@ const awsConfig = {
     maxRetries: 3,
     httpOptions: {
         connectTimeout: 5000,
-        timeout: 10000
+        timeout: 10000n
     }
 };
 
@@ -39,10 +39,10 @@ const s3 = new AWS.S3(awsConfig);
 async function testConnection() {
     try {
         await s3.headBucket({ Bucket: config.bucket }).promise();
-        console.log('✅ Successfully connected to S3 bucket:', config.bucket);
+        console.log('Successfully connected to S3 bucket:', config.bucket);
         return true;
     } catch (error) {
-        console.error('❌ Failed to connect to S3 bucket:', error.message);
+        console.error('Failed to connect to S3 bucket:', error.message);
         if (error.statusCode === 403) {
             console.error('  - Check if your AWS credentials have the correct permissions');
             console.error('  - Verify the bucket name is correct');
