@@ -73,7 +73,7 @@ async function login(req, res) {
       return res.status(400).json({ message: "Invalid password" });
     }
     const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET_KEY, { expiresIn: "1h" });
-    res.status(200).json({ message: "Login successful", user, token });
+    res.status(200).json({ message: "Login successful", user, token, userId: user._id });
   } catch (error) {
     console.error("Error occurred while logging in", error);
     res.status(500).json({ message: "Error occurred while logging in", error: error.message });
@@ -86,7 +86,7 @@ async function getUserProfileById(req, res) {
     if (!ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid user id" });
     }
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("followedUsers").populate("repositories");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
